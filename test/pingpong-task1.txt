@@ -1,0 +1,18 @@
+PPOS: system starting
+PPOS: system started (uptime 0 ms)
+user: inicio
+	ping: inicio
+	ping: 0
+		pong: inicio
+		pong: 0
+	ping: 1
+		pong: 1
+	ping: 2
+		pong: 2
+	ping: 3
+		pong: 3
+	ping: fim
+		pong: fim
+user: fim
+PPOS: system stopping
+PPOS: system stopped (uptime 0 ms)

@@ -1,0 +1,59 @@
+PPOS: system starting
+PPOS: system started (uptime 0 ms)
+user: inicio
+P1 inseriu 3 (tem 1)
+	P2 inseriu 9 (tem 2)
+		P3 inseriu 7 (tem 3)
+					C1 consumiu 3 (tem 2)
+						C2 consumiu 9 (tem 1)
+	P2 inseriu 15 (tem 2)
+						C2 consumiu 7 (tem 1)
+					C1 consumiu 15 (tem 0)
+		P3 inseriu 19 (tem 1)
+						C2 consumiu 19 (tem 0)
+P1 inseriu 16 (tem 1)
+					C1 consumiu 16 (tem 0)
+		P3 inseriu 17 (tem 1)
+	P2 inseriu 7 (tem 2)
+		P3 inseriu 1 (tem 3)
+						C2 consumiu 17 (tem 2)
+					C1 consumiu 7 (tem 1)
+					C1 consumiu 1 (tem 0)
+	P2 inseriu 0 (tem 1)
+						C2 consumiu 0 (tem 0)
+		P3 inseriu 5 (tem 1)
+	P2 inseriu 11 (tem 2)
+P1 inseriu 1 (tem 3)
+					C1 consumiu 5 (tem 2)
+						C2 consumiu 11 (tem 1)
+		P3 inseriu 5 (tem 2)
+	P2 inseriu 3 (tem 3)
+					C1 consumiu 1 (tem 2)
+P1 inseriu 12 (tem 3)
+						C2 consumiu 5 (tem 2)
+P1 inseriu 5 (tem 3)
+	P2 inseriu 11 (tem 4)
+						C2 consumiu 3 (tem 3)
+					C1 consumiu 12 (tem 2)
+						C2 consumiu 5 (tem 1)
+		P3 inseriu 18 (tem 2)
+						C2 consumiu 11 (tem 1)
+P1 inseriu 3 (tem 2)
+		P3 inseriu 5 (tem 3)
+		P3 inseriu 7 (tem 4)
+	P2 inseriu 17 (tem 5)
+					C1 consumiu 18 (tem 4)
+					C1 consumiu 3 (tem 3)
+PPOS: task 6 (c2) exit code 0,  4870 ms elapsed time,     0 ms cpu time,    13 activations
+P1 inseriu 1 (tem 4)
+PPOS: task 5 (c1) exit code 0,  5012 ms elapsed time,     0 ms cpu time,    12 activations
+	P2 inseriu 15 (tem 5)
+user: destruindo semáforos
+user: fim
+PPOS: task 1 (user) exit code 0, 15000 ms elapsed time,     0 ms cpu time,     2 activations
+PPOS: task 4 (p3) exit code 0, 15000 ms elapsed time,     0 ms cpu time,    11 activations
+PPOS: task 2 (p1) exit code 0, 15000 ms elapsed time,     0 ms cpu time,     9 activations
+PPOS: task 3 (p2) exit code 0, 15000 ms elapsed time,     0 ms cpu time,    11 activations
+PPOS: task 0 (kernel) exit code 0, 15000 ms elapsed time, 15000 ms cpu time,    59 activations
+PPOS: system stopping
+PPOS: system stopped (uptime 15000 ms)

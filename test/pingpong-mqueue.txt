@@ -1,0 +1,113 @@
+PPOS: system starting
+PPOS: system started (uptime 0 ms)
+    0 ms: user inicia
+    0 ms: 			agrup inicia
+    0 ms: 						cons0 inicia
+    0 ms: 						cons1 inicia
+    0 ms: prod0 inicia
+    0 ms: prod0 envia 4
+    0 ms: prod1 inicia
+    0 ms: prod1 envia 10
+    0 ms: prod2 inicia
+    0 ms: prod2 envia 8
+    0 ms: 			agrup recebe 4
+    0 ms: 			agrup recebe 10
+    0 ms: 			agrup recebe 8
+    0 ms: 			agrup envia [4*10*8 = 320]
+    0 ms: 						cons0 recebe [4*10*8 = 320]
+ 1174 ms: prod2 envia 16
+ 1174 ms: 			agrup recebe 16
+ 1836 ms: prod1 envia 10
+ 1836 ms: 			agrup recebe 10
+ 2312 ms: prod1 envia 20
+ 2312 ms: 			agrup recebe 20
+ 2312 ms: 			agrup envia [16*10*20 = 3200]
+ 2312 ms: 						cons1 recebe [16*10*20 = 3200]
+ 2762 ms: prod0 envia 16
+ 3960 ms: prod2 envia 18
+ 4077 ms: 			agrup recebe 16
+ 4077 ms: 			agrup recebe 18
+ 4094 ms: prod1 envia 8
+ 4094 ms: 			agrup recebe 8
+ 4094 ms: 			agrup envia [16*18*8 = 2304]
+ 4094 ms: 						cons0 recebe [16*18*8 = 2304]
+ 4516 ms: prod0 envia 16
+ 4590 ms: prod0 envia 18
+ 4930 ms: prod0 envia 20
+ 5795 ms: 			agrup recebe 16
+ 5795 ms: 			agrup recebe 18
+ 5795 ms: 			agrup recebe 20
+ 5795 ms: 			agrup envia [16*18*20 = 5760]
+ 5795 ms: 						cons0 recebe [16*18*20 = 5760]
+ 5892 ms: prod2 envia 12
+ 5892 ms: 			agrup recebe 12
+ 6380 ms: prod1 envia 2
+ 6380 ms: 			agrup recebe 2
+ 6470 ms: prod2 envia 12
+ 6470 ms: 			agrup recebe 12
+ 6470 ms: 			agrup envia [12*2*12 = 288]
+ 6470 ms: 						cons1 recebe [12*2*12 = 288]
+ 6480 ms: prod0 envia 4
+ 7435 ms: 			agrup recebe 4
+ 8108 ms: prod2 envia 6
+ 8108 ms: 			agrup recebe 6
+ 8160 ms: prod2 envia 20
+ 8160 ms: 			agrup recebe 20
+ 8160 ms: 			agrup envia [4*6*20 = 480]
+ 8160 ms: 						cons1 recebe [4*6*20 = 480]
+ 8674 ms: prod0 envia 12
+ 8760 ms: prod1 envia 6
+ 9565 ms: 			agrup recebe 12
+ 9565 ms: 			agrup recebe 6
+ 9756 ms: prod0 envia 8
+ 9756 ms: 			agrup recebe 8
+ 9756 ms: 			agrup envia [12*6*8 = 576]
+ 9756 ms: 						cons0 recebe [12*6*8 = 576]
+10470 ms: prod2 envia 4
+10470 ms: 			agrup recebe 4
+11314 ms: prod0 envia 6
+11314 ms: 			agrup recebe 6
+11398 ms: prod0 envia 8
+11398 ms: 			agrup recebe 8
+11398 ms: 			agrup envia [4*6*8 = 192]
+11398 ms: 						cons1 recebe [4*6*8 = 192]
+11548 ms: prod1 envia 16
+11694 ms: prod1 envia 2
+12336 ms: prod2 envia 16
+12876 ms: prod0 envia 14
+12978 ms: prod1 envia 12
+13915 ms: 			agrup recebe 16
+13915 ms: 			agrup recebe 2
+13915 ms: 			agrup recebe 16
+13915 ms: 			agrup envia [16*2*16 = 512]
+13915 ms: prod2 envia 10
+13915 ms: 						cons0 recebe [16*2*16 = 512]
+13956 ms: prod0 envia 14
+13983 ms: 			agrup recebe 14
+13983 ms: 			agrup recebe 12
+13983 ms: 			agrup recebe 10
+13983 ms: 			agrup envia [14*12*10 = 1680]
+13983 ms: 						cons1 recebe [14*12*10 = 1680]
+14710 ms: prod2 envia 18
+15100 ms: prod1 envia 8
+16068 ms: prod0 envia 2
+16858 ms: prod2 envia 20
+16870 ms: 			agrup termina
+PPOS: task 2 (agrup) exit code 0, 16870 ms elapsed time,     0 ms cpu time,    25 activations
+16870 ms: user destroi fila_inteiros
+16870 ms: user destroi fila_pacotes
+16870 ms: user termina
+PPOS: task 1 (user) exit code 0, 16870 ms elapsed time,     0 ms cpu time,     2 activations
+16870 ms: 						cons1 termina
+PPOS: task 4 (cons1) exit code 0, 16870 ms elapsed time,     0 ms cpu time,    12 activations
+16870 ms: 						cons0 termina
+PPOS: task 3 (cons0) exit code 0, 16870 ms elapsed time,     0 ms cpu time,    12 activations
+16980 ms: prod2 termina
+PPOS: task 7 (prod2) exit code 0, 16980 ms elapsed time,     0 ms cpu time,    14 activations
+17900 ms: prod0 termina
+PPOS: task 5 (prod0) exit code 0, 17900 ms elapsed time,     0 ms cpu time,    14 activations
+18066 ms: prod1 termina
+PPOS: task 6 (prod1) exit code 0, 18066 ms elapsed time,     0 ms cpu time,    11 activations
+PPOS: task 0 (kernel) exit code 0, 18066 ms elapsed time, 18066 ms cpu time,    91 activations
+PPOS: system stopping
+PPOS: system stopped (uptime 18066 ms)

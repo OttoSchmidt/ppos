@@ -1,0 +1,70 @@
+PPOS: system starting
+PPOS: system started (uptime 0 ms)
+user: inicio
+    0 ms: user 0
+   10 ms: 	Pang inicia
+   10 ms: 	Pang 0
+   20 ms: 		Peng inicia
+   20 ms: 		Peng 0
+   30 ms: 			Ping inicia
+   30 ms: 			Ping 0
+   40 ms: 				Pong inicia
+   40 ms: 				Pong 0
+   50 ms: 					Pung inicia
+   50 ms: 					Pung 0
+11557 ms: 			Ping 1
+11722 ms: 		Peng 1
+11744 ms: 				Pong 1
+11767 ms: user 1
+11775 ms: 	Pang 1
+11871 ms: 					Pung 1
+21099 ms: 			Ping 2
+21200 ms: 		Peng 2
+21222 ms: 				Pong 2
+21259 ms: 	Pang 2
+21353 ms: 					Pung 2
+21365 ms: user esperando Pang...
+29791 ms: 			Ping 3
+29947 ms: 				Pong 3
+30031 ms: 		Peng 3
+30110 ms: 					Pung 3
+30170 ms: 	Pang 3
+40438 ms: 			Ping 4
+40599 ms: 				Pong 4
+40777 ms: 		Peng 4
+40914 ms: 					Pung 4
+40970 ms: 	Pang termina
+PPOS: task 2 (pang) exit code 2, 40970 ms elapsed time,  7485 ms cpu time,   749 activations
+41010 ms: user esperando Peng...
+45585 ms: 			Ping 5
+45636 ms: 				Pong 5
+45738 ms: 		Peng 5
+45802 ms: 					Pung 5
+53901 ms: 			Ping 6
+53918 ms: 				Pong 6
+54219 ms: 		Peng termina
+PPOS: task 3 (peng) exit code 3, 54219 ms elapsed time, 10799 ms cpu time,  1080 activations
+54249 ms: user esperando Ping...
+54272 ms: 					Pung 6
+58436 ms: 				Pong 7
+58458 ms: 			Ping 7
+58683 ms: 					Pung 7
+63056 ms: 				Pong 8
+63100 ms: 			Ping termina
+PPOS: task 4 (ping) exit code 4, 63100 ms elapsed time, 13751 ms cpu time,  1376 activations
+63120 ms: user esperando Pong...
+63170 ms: 					Pung 8
+66786 ms: 				Pong 9
+66892 ms: 					Pung 9
+71109 ms: 				Pong termina
+PPOS: task 5 (pong) exit code 5, 71109 ms elapsed time, 17759 ms cpu time,  1776 activations
+71119 ms: user esperando Pung...
+71203 ms: 					Pung 10
+73347 ms: 					Pung 11
+75189 ms: 					Pung termina
+PPOS: task 6 (pung) exit code 6, 75189 ms elapsed time, 21830 ms cpu time,  2184 activations
+75189 ms: user termina
+PPOS: task 1 (user) exit code 0, 75189 ms elapsed time,  3565 ms cpu time,   362 activations
+PPOS: task 0 (kernel) exit code 0, 75189 ms elapsed time,     0 ms cpu time,  7528 activations
+PPOS: system stopping
+PPOS: system stopped (uptime 75189 ms)

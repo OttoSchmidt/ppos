@@ -1,0 +1,23 @@
+PPOS: system starting
+PPOS: system started (uptime 0 ms)
+user: inicio
+user: fim
+PPOS: task 1 (user) exit code 0,     0 ms elapsed time,     0 ms cpu time,     1 activations
+    0 ms: 					Pung inicia (prio: -8)
+   20 ms: 				Pong inicia (prio: -6)
+   40 ms: 			Ping inicia (prio: -4)
+   70 ms: 		Peng inicia (prio: -2)
+   90 ms: 	Pang inicia (prio: 0)
+23585 ms: 					Pung termina
+PPOS: task 6 (pung) exit code 0, 23585 ms elapsed time,  9185 ms cpu time,   919 activations
+32220 ms: 				Pong termina
+PPOS: task 5 (pong) exit code 0, 32220 ms elapsed time,  9195 ms cpu time,   920 activations
+37938 ms: 			Ping termina
+PPOS: task 4 (ping) exit code 0, 37938 ms elapsed time,  9208 ms cpu time,   921 activations
+43393 ms: 		Peng termina
+PPOS: task 3 (peng) exit code 0, 43393 ms elapsed time,  9255 ms cpu time,   926 activations
+46090 ms: 	Pang termina
+PPOS: task 2 (pang) exit code 0, 46090 ms elapsed time,  9247 ms cpu time,   925 activations
+PPOS: task 0 (kernel) exit code 0, 46090 ms elapsed time,     0 ms cpu time,  4613 activations
+PPOS: system stopping
+PPOS: system stopped (uptime 46090 ms)

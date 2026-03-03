@@ -1,0 +1,66 @@
+// PingPongOS - PingPong Operating System
+// Prof. Carlos A. Maziero, DINF UFPR
+// Versão 2.0 -- Junho de 2025
+
+// ATENÇÃO: ESTE ARQUIVO NÃO DEVE SER ALTERADO;
+// ALTERAÇÕES SERÃO DESCARTADAS NA CORREÇÃO.
+
+// Teste da contabilização com tarefas de prioridades distintas
+
+#include <assert.h>
+#include "lib/libc.h"
+#include "ppos.h"
+
+#define WORKLOAD 40000
+
+static struct task_t *pang, *peng, *ping, *pong, *pung;
+
+// simula um processamento pesado
+int hardwork(int n)
+{
+    int soma = 0;
+
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < n; j++)
+            soma += j;
+    return (soma);
+}
+
+// corpo das tarefas
+void body(void *arg)
+{
+    printf("%5d ms: %s inicia (prio: %d)\n", systime(),
+           (char *)arg, sched_getprio(NULL));
+    hardwork(WORKLOAD);
+    printf("%5d ms: %s termina\n", systime(), (char *)arg);
+    task_exit(0);
+}
+
+// corpo da tarefa principal
+void user_main(void *arg)
+{
+    printf("user: inicio\n");
+
+    // cria tarefas
+    pang = task_create("pang", body, "\tPang");
+    assert(pang);
+    peng = task_create("peng", body, "\t\tPeng");
+    assert(peng);
+    ping = task_create("ping", body, "\t\t\tPing");
+    assert(ping);
+    pong = task_create("pong", body, "\t\t\t\tPong");
+    assert(pong);
+    pung = task_create("pung", body, "\t\t\t\t\tPung");
+    assert(pung);
+
+    // ajusta prioridades
+    sched_setprio(pang, 0);
+    sched_setprio(peng, -2);
+    sched_setprio(ping, -4);
+    sched_setprio(pong, -6);
+    sched_setprio(pung, -8);
+
+    printf("user: fim\n");
+
+    task_exit(0);
+}

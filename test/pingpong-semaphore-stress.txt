@@ -1,0 +1,74 @@
+PPOS: system starting
+PPOS: system started (uptime 0 ms)
+user: inicio
+64 tarefas somando 1000000 vezes cada, aguarde...
+PPOS: task 2 ((null)) exit code 0, 24236 ms elapsed time,   215 ms cpu time, 1000001 activations
+PPOS: task 3 ((null)) exit code 0, 24236 ms elapsed time,   236 ms cpu time, 1000001 activations
+PPOS: task 4 ((null)) exit code 0, 24236 ms elapsed time,   216 ms cpu time, 1000001 activations
+PPOS: task 5 ((null)) exit code 0, 24236 ms elapsed time,   246 ms cpu time, 1000001 activations
+PPOS: task 6 ((null)) exit code 0, 24236 ms elapsed time,   245 ms cpu time, 1000001 activations
+PPOS: task 7 ((null)) exit code 0, 24236 ms elapsed time,   224 ms cpu time, 1000001 activations
+PPOS: task 8 ((null)) exit code 0, 24236 ms elapsed time,   243 ms cpu time, 1000001 activations
+PPOS: task 9 ((null)) exit code 0, 24236 ms elapsed time,   204 ms cpu time, 1000001 activations
+PPOS: task 10 ((null)) exit code 0, 24236 ms elapsed time,   230 ms cpu time, 1000001 activations
+PPOS: task 11 ((null)) exit code 0, 24236 ms elapsed time,   253 ms cpu time, 1000001 activations
+PPOS: task 12 ((null)) exit code 0, 24236 ms elapsed time,   212 ms cpu time, 1000001 activations
+PPOS: task 13 ((null)) exit code 0, 24236 ms elapsed time,   196 ms cpu time, 1000001 activations
+PPOS: task 14 ((null)) exit code 0, 24236 ms elapsed time,   228 ms cpu time, 1000001 activations
+PPOS: task 15 ((null)) exit code 0, 24236 ms elapsed time,   217 ms cpu time, 1000001 activations
+PPOS: task 16 ((null)) exit code 0, 24236 ms elapsed time,   246 ms cpu time, 1000001 activations
+PPOS: task 17 ((null)) exit code 0, 24236 ms elapsed time,   237 ms cpu time, 1000001 activations
+PPOS: task 18 ((null)) exit code 0, 24236 ms elapsed time,   216 ms cpu time, 1000001 activations
+PPOS: task 19 ((null)) exit code 0, 24236 ms elapsed time,   200 ms cpu time, 1000001 activations
+PPOS: task 20 ((null)) exit code 0, 24236 ms elapsed time,   217 ms cpu time, 1000001 activations
+PPOS: task 21 ((null)) exit code 0, 24236 ms elapsed time,   282 ms cpu time, 1000001 activations
+PPOS: task 22 ((null)) exit code 0, 24236 ms elapsed time,   220 ms cpu time, 1000001 activations
+PPOS: task 23 ((null)) exit code 0, 24236 ms elapsed time,   214 ms cpu time, 1000001 activations
+PPOS: task 24 ((null)) exit code 0, 24236 ms elapsed time,   203 ms cpu time, 1000001 activations
+PPOS: task 25 ((null)) exit code 0, 24236 ms elapsed time,   219 ms cpu time, 1000001 activations
+PPOS: task 26 ((null)) exit code 0, 24236 ms elapsed time,   200 ms cpu time, 1000001 activations
+PPOS: task 27 ((null)) exit code 0, 24236 ms elapsed time,   233 ms cpu time, 1000001 activations
+PPOS: task 28 ((null)) exit code 0, 24236 ms elapsed time,   213 ms cpu time, 1000001 activations
+PPOS: task 29 ((null)) exit code 0, 24236 ms elapsed time,   235 ms cpu time, 1000001 activations
+PPOS: task 30 ((null)) exit code 0, 24236 ms elapsed time,   230 ms cpu time, 1000001 activations
+PPOS: task 31 ((null)) exit code 0, 24236 ms elapsed time,   233 ms cpu time, 1000001 activations
+PPOS: task 32 ((null)) exit code 0, 24236 ms elapsed time,   243 ms cpu time, 1000001 activations
+PPOS: task 33 ((null)) exit code 0, 24236 ms elapsed time,   195 ms cpu time, 1000001 activations
+PPOS: task 34 ((null)) exit code 0, 24236 ms elapsed time,   225 ms cpu time, 1000001 activations
+PPOS: task 35 ((null)) exit code 0, 24236 ms elapsed time,   199 ms cpu time, 1000001 activations
+PPOS: task 36 ((null)) exit code 0, 24236 ms elapsed time,   232 ms cpu time, 1000001 activations
+PPOS: task 37 ((null)) exit code 0, 24236 ms elapsed time,   210 ms cpu time, 1000001 activations
+PPOS: task 38 ((null)) exit code 0, 24236 ms elapsed time,   230 ms cpu time, 1000001 activations
+PPOS: task 39 ((null)) exit code 0, 24236 ms elapsed time,   213 ms cpu time, 1000001 activations
+PPOS: task 40 ((null)) exit code 0, 24236 ms elapsed time,   245 ms cpu time, 1000001 activations
+PPOS: task 41 ((null)) exit code 0, 24236 ms elapsed time,   220 ms cpu time, 1000001 activations
+PPOS: task 42 ((null)) exit code 0, 24236 ms elapsed time,   209 ms cpu time, 1000001 activations
+PPOS: task 43 ((null)) exit code 0, 24237 ms elapsed time,   216 ms cpu time, 1000001 activations
+PPOS: task 44 ((null)) exit code 0, 24237 ms elapsed time,   230 ms cpu time, 1000001 activations
+PPOS: task 45 ((null)) exit code 0, 24237 ms elapsed time,   230 ms cpu time, 1000001 activations
+PPOS: task 46 ((null)) exit code 0, 24237 ms elapsed time,   227 ms cpu time, 1000001 activations
+PPOS: task 47 ((null)) exit code 0, 24237 ms elapsed time,   209 ms cpu time, 1000001 activations
+PPOS: task 48 ((null)) exit code 0, 24237 ms elapsed time,   213 ms cpu time, 1000001 activations
+PPOS: task 49 ((null)) exit code 0, 24237 ms elapsed time,   206 ms cpu time, 1000001 activations
+PPOS: task 50 ((null)) exit code 0, 24237 ms elapsed time,   226 ms cpu time, 1000001 activations
+PPOS: task 51 ((null)) exit code 0, 24237 ms elapsed time,   231 ms cpu time, 1000001 activations
+PPOS: task 52 ((null)) exit code 0, 24237 ms elapsed time,   212 ms cpu time, 1000001 activations
+PPOS: task 53 ((null)) exit code 0, 24237 ms elapsed time,   240 ms cpu time, 1000001 activations
+PPOS: task 54 ((null)) exit code 0, 24237 ms elapsed time,   243 ms cpu time, 1000001 activations
+PPOS: task 55 ((null)) exit code 0, 24237 ms elapsed time,   212 ms cpu time, 1000001 activations
+PPOS: task 56 ((null)) exit code 0, 24237 ms elapsed time,   218 ms cpu time, 1000001 activations
+PPOS: task 57 ((null)) exit code 0, 24237 ms elapsed time,   191 ms cpu time, 1000001 activations
+PPOS: task 58 ((null)) exit code 0, 24237 ms elapsed time,   233 ms cpu time, 1000001 activations
+PPOS: task 59 ((null)) exit code 0, 24237 ms elapsed time,   232 ms cpu time, 1000001 activations
+PPOS: task 60 ((null)) exit code 0, 24237 ms elapsed time,   205 ms cpu time, 1000001 activations
+PPOS: task 61 ((null)) exit code 0, 24237 ms elapsed time,   245 ms cpu time, 1000001 activations
+PPOS: task 62 ((null)) exit code 0, 24237 ms elapsed time,   225 ms cpu time, 1000001 activations
+PPOS: task 63 ((null)) exit code 0, 24237 ms elapsed time,   222 ms cpu time, 1000001 activations
+PPOS: task 64 ((null)) exit code 0, 24237 ms elapsed time,   252 ms cpu time, 1000001 activations
+PPOS: task 65 ((null)) exit code 0, 24237 ms elapsed time,   251 ms cpu time, 1000001 activations
+A soma deu 64000000, valor correto!
+user: fim
+PPOS: task 1 (user) exit code 0, 24237 ms elapsed time,     0 ms cpu time,    34 activations
+PPOS: task 0 (kernel) exit code 0, 24237 ms elapsed time,  9883 ms cpu time, 64000099 activations
+PPOS: system stopping
+PPOS: system stopped (uptime 24237 ms)

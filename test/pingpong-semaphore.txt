@@ -1,0 +1,30 @@
+PPOS: system starting
+PPOS: system started (uptime 0 ms)
+user: inicio
+    0 ms: A1 zig (0)
+ 1000 ms: 			B1 zag (0)
+ 2000 ms: 	A2 zig (0)
+ 3000 ms: 				B2 zag (0)
+ 4000 ms: A1 zig (1)
+ 5000 ms: 			B1 zag (1)
+ 6000 ms: 	A2 zig (1)
+ 7000 ms: 				B2 zag (1)
+ 8000 ms: A1 zig (2)
+ 9000 ms: 			B1 zag (2)
+10000 ms: 	A2 zig (2)
+11000 ms: 				B2 zag (2)
+12000 ms: A1 zig (3)
+13000 ms: 			B1 zag (3)
+14000 ms: 	A2 zig (3)
+15000 ms: 				B2 zag (3)
+16000 ms: A1 zig (4)
+PPOS: task 2 (a1) exit code 0, 17000 ms elapsed time,     0 ms cpu time,    10 activations
+17000 ms: 			B1 zag (4)
+PPOS: task 3 (a2) exit code 0, 17000 ms elapsed time,     0 ms cpu time,    10 activations
+PPOS: task 5 (b2) exit code 0, 17000 ms elapsed time,     0 ms cpu time,    10 activations
+PPOS: task 4 (b1) exit code 0, 18000 ms elapsed time,     0 ms cpu time,    11 activations
+user: fim
+PPOS: task 1 (user) exit code 0, 18000 ms elapsed time,     0 ms cpu time,     4 activations
+PPOS: task 0 (kernel) exit code 0, 18000 ms elapsed time, 18000 ms cpu time,    46 activations
+PPOS: system stopping
+PPOS: system stopped (uptime 18000 ms)
