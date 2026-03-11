@@ -36,16 +36,7 @@ struct task_t *task_create(char *name, void (*entry)(void *),
 		return NULL;
 
 	nova_tarefa->id = new_task_id;
-
-	if (!name) {
-		nova_tarefa->name = (char*) malloc(16);
-		snprintf(nova_tarefa->name, 16, "task-%10d", new_task_id); // necessario?
-		nova_tarefa->dynamic_name = true;
-	} else {
-		nova_tarefa->name = name;
-		nova_tarefa->dynamic_name = false;
-	}
-
+	nova_tarefa->name = name;
 	nova_tarefa->status = TASK_NEW;
 	nova_tarefa->owner = task_atual; // definir a tarefa que criou esta tarefa
 
@@ -81,8 +72,6 @@ int task_destroy(struct task_t *task) {
 		return ERROR;
 
 	free(task->context.stack); // liberar pilha
-	if (task->dynamic_name)
-		free(task->name);
 	free(task); // liberar TCB
 
 	return NOERROR;
@@ -122,6 +111,8 @@ int task_switch(struct task_t *task) {
 	#endif
 	
 	if (task->status != TASK_TERMINATED) { // ignorar sem erro
+		// transferir para a nova tarefa. a execucao da tarefa atual foi suspensa
+
 		struct task_t *task_anterior = task_atual; // salvar tarefa atual
 		task_atual = task; // atualizar tarefa atual
 
@@ -134,7 +125,7 @@ int task_switch(struct task_t *task) {
 
 		// a função abaixo troca o contexto da cpu, então, por enquanto,
 		// essa funcao encerra aqui. a execucao da cpu continua no novo 
-		// contexto e somente quando a nova tarefa retornar, a execucao 
+		// contexto e somente quando essa nova tarefa retornar, a execucao 
 		// voltara após a função ctx_swap.
 		ctx_swap(&task_anterior->context, &task->context);
 	} else {
@@ -157,5 +148,7 @@ int task_id(struct task_t *task) {
 char *task_name(struct task_t *task) {
 	if (!task)
 		return task_atual->name;
+	if (!task->name)
+		return "SEM_NOME";
 	return task->name;
 }
