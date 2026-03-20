@@ -65,14 +65,20 @@ for i in $(seq 1 $PROJECT_NUMBER); do
 		# executar o teste e redirecionar tudo para um arquivo
 		./$test > ${test}-output.txt 2>&1
 		if [ $? -ne 0 ]; then
-			echo -e "${RED}Erro:${NC} Teste $test falhou. Verifique ${test}-output.txt para detalhes."
+			echo -e "${RED}Erro:${NC} Teste $test falhou."
+			tail -n 20 ${test}-output.txt
+
 			ALL_TESTS_PASSED=false
+			continue
 		fi
 
 		# comparar a saída do teste com a saída esperada
 		diff ${test}-output.txt test/${test}.txt > ${test}-diff.txt
 		if [ $? -ne 0 ]; then
-			echo -e "${RED}Erro:${NC} Teste $test falhou. Saída difere do esperado. Verifique ${test}-diff.txt para detalhes."
+			echo -e "${RED}Erro:${NC} Teste $test falhou. Saída difere do esperado."
+			echo -e "${BLUE}Diferencas encontradas${NC} (${test}-diff.txt):"
+			tail -n 20 ${test}-diff.txt
+
 			ALL_TESTS_PASSED=false
 		fi
 	done
