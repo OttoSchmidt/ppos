@@ -3,10 +3,10 @@
 // GRR20244625 - Vinícius Hasse Nascimento
 
 #include "task.h"
+#include "lib/libc.h"
+#include "macros.h"
 
 #include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
 
 #define ERROR -1
 #define NOERROR 0
@@ -15,20 +15,19 @@
 int new_task_id = 1;
 struct task_t *task_atual;
 
-// inicializa o subsistema de tarefas
 void task_init() {
 	// inicializa a tarefa do kernel (id=0)
 	task_atual = (struct task_t *) malloc(sizeof(struct task_t));
+	if (!task_atual) {
+		ppos_panic("Nao foi possivel alocar tarefa do kernel!\n");
+	}
+
 	task_atual->id = 0;
 	task_atual->name = "kernel";
 	task_atual->status = TASK_RUNNING;
 	task_atual->owner = NULL;
 }
 
-// cria uma nova tarefa: "name" é o nome da tarefa, "entry"
-// é a função que ela irá executar e "arg" aponta para o valor
-// recebido por "entry" ao iniciar (pode ser NULL).
-// retorno: ptr para o descritor da tarefa ou NULL se houver erro
 struct task_t *task_create(char *name, void (*entry)(void *),
                            void *arg) 
 {
@@ -59,15 +58,12 @@ struct task_t *task_create(char *name, void (*entry)(void *),
 	nova_tarefa->status = TASK_READY; // tarefa pronta para ser executada
 
 	#ifdef DEBUG
-	printf("tarefa criada: '%s'\n", nova_tarefa->name);
+	ppos_debug("tarefa criada: '%s'\n", nova_tarefa->name);
 	#endif
 
 	return nova_tarefa;
 }
 
-// destroi uma tarefa e libera seus recursos;
-// somente deve atuar sobre tarefas terminadas.
-// Retorno: NOERROR (0) ou ERROR (<0)
 int task_destroy(struct task_t *task) {
 	if (!task || task->status != TASK_TERMINATED)
 		return ERROR;
@@ -78,38 +74,33 @@ int task_destroy(struct task_t *task) {
 	return NOERROR;
 }
 
-// transfere a cpu da tarefa atual para outra tarefa;
-// se task == NULL, transfere para a tarefa que a criou.
-// ignora sem erro se "task" já tiver terminado.
-// Retorno: NOERROR (0) ou ERROR (<0)
 int task_switch(struct task_t *task) {
 	if (!task) {
-		// transferir para o dono da tarefa atual, pois a execucao
-		// da tarefa atual terminou
+		// como task == NULL, deve transferir a tarefa
+		// para o dono da tarefa atual
 
 		if (!task_atual->owner) { 
 			// tarefa atual é a do kernel, não tem dono
+			#ifdef DEBUG
+				ppos_debug("tarefa atual '%s' finalizou, porem nao possui dono\n", task_atual->name);
+			#endif
 			return ERROR;
 		}
 
 		struct task_t *task_anterior = task_atual;
 		task_atual = task_atual->owner;
 
-		task_atual->status = TASK_RUNNING;
+		// por conta dos testes, eh necessario trocar status para finalizado
 		task_anterior->status = TASK_TERMINATED;
 
 		#ifdef DEBUG
-		printf("tarefa '%s' finalizou. trocando tarefa para dono '%s'\n", task_anterior->name, task_atual->name);
+		ppos_debug("tarefa atual finalizou. trocando tarefa para dono '%s'\n", task_anterior->name, task_atual->name);
 		#endif
 
 		ctx_swap(&task_anterior->context, &task_atual->context);
 
 		return NOERROR;
 	}
-
-	#ifdef DEBUG
-	printf("status da tarefa '%s': %d\n", task->name, task->status);
-	#endif
 	
 	if (task->status != TASK_TERMINATED) { // ignorar sem erro
 		// transferir para a nova tarefa. a execucao da tarefa atual foi suspensa
@@ -117,35 +108,30 @@ int task_switch(struct task_t *task) {
 		struct task_t *task_anterior = task_atual; // salvar tarefa atual
 		task_atual = task; // atualizar tarefa atual
 
-		task_atual->status = TASK_RUNNING;
-		task_anterior->status = TASK_SUSPENDED;
-
 		#ifdef DEBUG
-		printf("trocou para tarefa '%s'. tarefa '%s' suspensa\n", task_atual->name, task_anterior->name);
+		ppos_debug("tarefa '%s' finalizou. trocando para tarefa '%s'\n", task_anterior->name, task_atual->name);
 		#endif
 
-		// a função abaixo troca o contexto da cpu, então, por enquanto,
+		// ctx_swap troca o contexto da cpu, então, por enquanto,
 		// essa funcao encerra aqui. a execucao da cpu continua no novo 
-		// contexto e somente quando essa nova tarefa retornar, a execucao 
-		// voltara após a função ctx_swap.
+		// contexto e, somente quando essa nova tarefa retornar, a execucao 
+		// voltara aqui após a função ctx_swap.
 		ctx_swap(&task_anterior->context, &task->context);
 	} else {
 		#ifdef DEBUG
-		printf("tarefa '%s' nao foi trocada pois ja esta encerrada\n", task->name);
+		ppos_debug("tarefa '%s' nao foi trocada pois ja esta encerrada\n", task->name);
 		#endif
 	}
 
 	return NOERROR;
 }
 
-// informa o ID de uma tarefa (ou da tarefa atual se NULL)
 int task_id(struct task_t *task) {
 	if (!task)
 		return task_atual->id;
 	return task->id;
 }
 
-// informa o nome de uma tarefa (ou da tarefa atual se NULL)
 char *task_name(struct task_t *task) {
 	if (!task)
 		return task_atual->name;
