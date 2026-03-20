@@ -1,1 +1,10 @@
+# ignora tudo, exceto arquivos com extensão e diretórios.
+# entao, somente ignora arquivos sem extensão e diretórios vazios
+*
+!*.*
+!*/
+
 *.o
+
+# ignora todos .txt na raiz do projeto
+/*.txt 
