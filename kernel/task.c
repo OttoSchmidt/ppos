@@ -90,7 +90,8 @@ int task_switch(struct task_t *task) {
 		struct task_t *task_anterior = task_atual;
 		task_atual = task_atual->owner;
 
-		// por conta dos testes, eh necessario trocar status para finalizado
+		// necessario para os testes do P1, pois nao eh possivel
+		// destruir a task se ela nao for TERMINATED
 		task_anterior->status = TASK_TERMINATED;
 
 		#ifdef DEBUG
