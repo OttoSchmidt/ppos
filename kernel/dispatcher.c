@@ -4,24 +4,134 @@
 
 #include "dispatcher.h"
 #include "task.h"
+#include "scheduler.h"
 
-#include <stdio.h>
+#include "macros.h"
+
+struct queue_t *ready_queue;
+struct queue_t *suspended_queue;
 
 void user_main(void *arg);
+extern struct task_t *task_atual;
 
 void dispatcher_init()
 {
+	ready_queue = queue_create();
+	suspended_queue = queue_create();
 }
 
 void dispatcher()
 {
 	struct task_t *task_user = task_create("user", user_main, NULL);
 	if (!task_user) {
-		printf("Erro ao criar tarefa do usuário\n");
+		ppos_panic("Nao foi possivel criar a task do usuario\n");
 		return;
 	}
 
-	task_switch(task_user);
+	while (queue_size(ready_queue) > 0) {
+		struct task_t *executar_task = scheduler(ready_queue);
+		#ifdef DEBUG
+		ppos_debug("proxima task: %s\n", task_name(executar_task));
+		#endif
 
-	task_destroy(task_user);
+		if (executar_task) {
+			task_run(executar_task);
+
+			switch(executar_task->status) {
+				case TASK_READY:
+				case TASK_SUSPENDED: break;
+				case TASK_TERMINATED:
+					// verificar se a tarefa finalizada possui filhos.
+					// se possuir, trocar o dono para tarefa atual
+					
+					// se queue_head retornar NULL, a fila esta vazia
+					if (!queue_head(ready_queue)) break;
+
+					do {
+						// recuperar item apontado pelo iterador
+						struct task_t *iter = queue_item(ready_queue);
+
+						if (iter->owner == executar_task) {
+							#ifdef DEBUG
+							ppos_debug("o dono da tarefa '%s' foi trocado para '%s'\n", task_name(iter), task_name(task_atual));
+							#endif
+
+							iter->owner = task_atual;
+						}
+					} while (queue_next(ready_queue));
+
+					queue_head(ready_queue);
+					break;
+				default:
+			}
+		} else {
+			ppos_debug("Nao ha proxima task\n");
+		}
+	}
+
+	#ifdef DEBUG
+	ppos_debug("dispatcher finalizou\n");
+	#endif
+}
+
+
+// executa a tarefa indicada: a retira da fila de prontas,
+// muda seu status para RODANDO e transfere a CPU para ela.
+void task_run(struct task_t *task) {
+	if (!task) return;
+
+	if (queue_del(ready_queue, task) == ERROR)
+		return;
+	
+	task->status = TASK_RUNNING;
+
+	task_switch(task);
+}
+
+// a tarefa atual libera a CPU para o dispatcher,
+// voltando para a fila de prontas
+void task_yield() {
+	task_atual->status = TASK_READY;
+	
+	queue_add(ready_queue, task_atual);
+
+	task_switch(NULL);
+}
+
+// suspende a tarefa atual: a retira da fila de prontas,
+// a insere na fila "queue" (se não for NULL) e retorna
+// ao dispatcher.
+void task_suspend(struct queue_t *queue) {
+	task_atual->status = TASK_SUSPENDED;
+
+	if (queue && queue_del(queue, task_atual) == ERROR) return;
+
+	task_switch(NULL);
+}
+
+// acorda uma tarefa: a retira da fila onde se encontra
+// suspensa (se estiver em uma) e a insere na fila de
+// prontas, para retomar (ou iniciar) sua execução.
+void task_awake(struct task_t *task) {
+	if (!task) return;
+
+	queue_del(suspended_queue, task);
+
+	task->status = TASK_READY;
+	queue_add(ready_queue, task);
+}
+
+// encerra a execução da tarefa atual, informando um
+// "exit code", e retorna ao dispatcher.
+void task_exit(int exit_code) {
+	if (!task_atual)
+		ppos_panic("Nao foi possivel encontrar a task_atual para encerra-la\n");
+
+	#ifdef DEBUG
+	ppos_debug("encerrando a task_atual: %s\n", task_name(task_atual));
+	#endif
+
+	task_atual->status = TASK_TERMINATED;
+
+	task_switch(NULL);
 }

@@ -3,8 +3,9 @@
 // GRR20244625 - Vinícius Hasse Nascimento
 
 #include "task.h"
-#include "lib/libc.h"
 #include "macros.h"
+#include "lib/libc.h"
+#include "lib/queue.h"
 
 #include <stdlib.h>
 
@@ -14,6 +15,7 @@
 
 int new_task_id = 1;
 struct task_t *task_atual;
+extern struct queue_t *ready_queue;
 
 void task_init() {
 	// inicializa a tarefa do kernel (id=0)
@@ -56,6 +58,7 @@ struct task_t *task_create(char *name, void (*entry)(void *),
 	
 	new_task_id++;
 	nova_tarefa->status = TASK_READY; // tarefa pronta para ser executada
+	queue_add(ready_queue, nova_tarefa);
 
 	#ifdef DEBUG
 	ppos_debug("tarefa criada: '%s'\n", nova_tarefa->name);
@@ -90,12 +93,8 @@ int task_switch(struct task_t *task) {
 		struct task_t *task_anterior = task_atual;
 		task_atual = task_atual->owner;
 
-		// necessario para os testes do P1, pois nao eh possivel
-		// destruir a task se ela nao for TERMINATED
-		task_anterior->status = TASK_TERMINATED;
-
 		#ifdef DEBUG
-		ppos_debug("tarefa atual finalizou. trocando tarefa para dono '%s'\n", task_anterior->name, task_atual->name);
+		ppos_debug("tarefa atual '%s' finalizou. trocando tarefa para dono '%s'\n", task_anterior->name, task_atual->name);
 		#endif
 
 		ctx_swap(&task_anterior->context, &task_atual->context);
