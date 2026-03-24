@@ -20,6 +20,27 @@ void dispatcher_init()
 	suspended_queue = queue_create();
 }
 
+// iterar toda lista em busca de tarefas com um certo pai
+// para substituir esse pai por um novo
+void adopt_children(struct queue_t *queue, struct task_t *father_task, struct task_t *new_father_task) {
+	// se queue_head retornar NULL, a fila esta vazia
+	if (!queue_head(queue)) return;
+
+	do {
+		struct task_t *iter = queue_item(queue);
+
+		if (iter->owner == father_task) {
+			#ifdef DEBUG
+			ppos_debug("o dono da tarefa '%s' foi trocado para '%s'\n", task_name(iter), task_name(new_father_task));
+			#endif
+
+			iter->owner = new_father_task;
+		}
+	} while (queue_next(queue));
+
+	queue_head(queue);
+}
+
 void dispatcher()
 {
 	struct task_t *task_user = task_create("user", user_main, NULL);
@@ -41,37 +62,14 @@ void dispatcher()
 				case TASK_READY:
 				case TASK_SUSPENDED: break;
 				case TASK_TERMINATED:
-					// verificar se a tarefa finalizada possui filhos.
-					// se possuir, trocar o dono para tarefa atual
-					
-					// se queue_head retornar NULL, a fila esta vazia
-					if (!queue_head(ready_queue)) break;
-
-					do {
-						// recuperar item apontado pelo iterador
-						struct task_t *iter = queue_item(ready_queue);
-
-						if (iter->owner == executar_task) {
-							#ifdef DEBUG
-							ppos_debug("o dono da tarefa '%s' foi trocado para '%s'\n", task_name(iter), task_name(task_atual));
-							#endif
-
-							iter->owner = task_atual;
-						}
-					} while (queue_next(ready_queue));
-
-					queue_head(ready_queue);
+					adopt_children(ready_queue, executar_task, task_atual);
 					break;
 				default:
 			}
 		} else {
-			ppos_debug("Nao ha proxima task\n");
+			ppos_debug("Nao existe proxima task\n");
 		}
 	}
-
-	#ifdef DEBUG
-	ppos_debug("dispatcher finalizou\n");
-	#endif
 }
 
 
