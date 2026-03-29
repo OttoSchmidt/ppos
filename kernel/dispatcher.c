@@ -13,6 +13,7 @@ struct queue_t *suspended_queue;
 
 void user_main(void *arg);
 extern struct task_t *task_atual;
+extern struct task_t *task_kernel;
 
 void dispatcher_init()
 {
@@ -49,7 +50,7 @@ void dispatcher()
 		return;
 	}
 
-	while (queue_size(ready_queue) > 0) {
+	while (queue_size(ready_queue) > 0 || queue_size(suspended_queue) > 0) {
 		struct task_t *executar_task = scheduler(ready_queue);
 		#ifdef DEBUG
 		ppos_debug("proxima task: %s\n", task_name(executar_task));
@@ -93,7 +94,7 @@ void task_yield() {
 	
 	queue_add(ready_queue, task_atual);
 
-	task_switch(NULL);
+	task_switch(task_kernel);
 }
 
 // suspende a tarefa atual: a retira da fila de prontas,
@@ -102,9 +103,13 @@ void task_yield() {
 void task_suspend(struct queue_t *queue) {
 	task_atual->status = TASK_SUSPENDED;
 
-	if (queue && queue_del(queue, task_atual) == ERROR) return;
+	if (queue_del(ready_queue, task_atual) == ERROR) 
+		ppos_panic("Tarefa atual '%s' nao esta presente na fila de prontas\n", task_name(task_atual));
 
-	task_switch(NULL);
+	if (queue && queue_add(queue, task_atual) == ERROR) 
+		ppos_panic("Nao foi possivel adicionar tarefa '%s' na fila\n", task_name(task_atual));
+
+	task_switch(task_kernel);
 }
 
 // acorda uma tarefa: a retira da fila onde se encontra
@@ -113,10 +118,16 @@ void task_suspend(struct queue_t *queue) {
 void task_awake(struct task_t *task) {
 	if (!task) return;
 
-	queue_del(suspended_queue, task);
+	if (queue_del(suspended_queue, task) == ERROR) {
+		#ifdef DEBUG
+		ppos_debug("Tarefa '%s' nao esta presente na fila de tarefas suspensas\n", task_name(task));
+		#endif
+	}
 
 	task->status = TASK_READY;
-	queue_add(ready_queue, task);
+
+	if (queue_add(ready_queue, task))
+		ppos_panic("Nao foi possivel adicionar tarefa '%s' na fila de tarefas prontas\n", task_name(task));
 }
 
 // encerra a execução da tarefa atual, informando um
@@ -131,5 +142,5 @@ void task_exit(int exit_code) {
 
 	task_atual->status = TASK_TERMINATED;
 
-	task_switch(NULL);
+	task_switch(task_kernel);
 }

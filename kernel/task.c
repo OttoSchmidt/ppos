@@ -15,6 +15,7 @@
 
 int new_task_id = 1;
 struct task_t *task_atual;
+struct task_t *task_kernel;
 extern struct queue_t *ready_queue;
 
 void task_init() {
@@ -28,6 +29,7 @@ void task_init() {
 	task_atual->name = "kernel";
 	task_atual->status = TASK_RUNNING;
 	task_atual->owner = NULL;
+	task_kernel = task_atual;
 }
 
 struct task_t *task_create(char *name, void (*entry)(void *),
