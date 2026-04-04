@@ -29,6 +29,8 @@ void task_init() {
 	task_atual->name = "kernel";
 	task_atual->status = TASK_RUNNING;
 	task_atual->owner = NULL;
+	task_atual->priostatic = 0;
+	task_atual->priodinamic = 0;
 	task_kernel = task_atual;
 }
 
@@ -43,6 +45,8 @@ struct task_t *task_create(char *name, void (*entry)(void *),
 	nova_tarefa->name = name;
 	nova_tarefa->status = TASK_NEW;
 	nova_tarefa->owner = task_atual; // definir a tarefa que criou esta tarefa
+	nova_tarefa->priostatic = 0;
+	nova_tarefa->priodinamic = 0;
 
 	// alocar pilha p/ o contexto
 	void *stack = malloc(STACK_SIZE);

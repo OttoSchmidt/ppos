@@ -25,7 +25,8 @@ struct task_t
     struct ctx_t context;       // contexto armazenado da tarefa
     int status;                 // status da tarefa (ex: pronta, executando, terminada)
     struct task_t *owner;       // tarefa que criou esta tarefa (NULL para a tarefa do kernel)
-                                // ...
+    int priostatic;             // prioridade estática da tarefa
+    int priodinamic;             // prioridade dinâmica da tarefa
 };
 
 #endif
