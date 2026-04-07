@@ -20,17 +20,9 @@ struct task_t *scheduler(struct queue_t *ready_queue) {
 
 	// busca a próxima task
 	while(task){
+        task->priodinamic--;
         if (task->priodinamic < next_task->priodinamic)
             next_task = task;
-        task = queue_next(ready_queue);
-    }
-
-    // aplica aging
-    task = queue_head(ready_queue);
-
-    while(task){
-        if(task != next_task)
-            task->priodinamic--;
         task = queue_next(ready_queue);
     }
 
