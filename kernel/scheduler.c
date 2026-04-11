@@ -19,12 +19,12 @@ struct task_t *scheduler(struct queue_t *ready_queue) {
 	struct task_t *next_task = task;
 
 	// busca a próxima task
-	while(task){
-        task->priodinamic--;
-        if (task->priodinamic < next_task->priodinamic)
-            next_task = task;
-        task = queue_next(ready_queue);
-    }
+	while (task) {
+		task->priodinamic--;
+		if (task->priodinamic < next_task->priodinamic)
+			next_task = task;
+		task = queue_next(ready_queue);
+	}
 
 	next_task->priodinamic = next_task->priostatic;
 
@@ -32,12 +32,12 @@ struct task_t *scheduler(struct queue_t *ready_queue) {
 }
 
 // muda a prioridade de uma tarefa
-void sched_setprio(struct task_t *task, int prio){
+void sched_setprio(struct task_t *task, int prio) {
 	if (prio > 20 || prio < -20) 
 		return;
 
 	// caso nulo, muda a prioridade da tarefa atual
-	if (!task){
+	if (!task) {
 		task_atual->priostatic = prio;
 		task_atual->priodinamic = prio;
 		return;
@@ -48,9 +48,9 @@ void sched_setprio(struct task_t *task, int prio){
 }
 
 // obtem a prioridade de uma tarefa
-int sched_getprio(struct task_t *task){
+int sched_getprio(struct task_t *task) {
 	// caso nulo, retorna a prioridade da tarefa atual
-	if(!task)
+	if (!task)
 		return task_atual->priostatic;
 
 	return task->priostatic;
