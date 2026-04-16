@@ -1,7 +1,7 @@
 // PingPongOS - PingPong Operating System
 
 #include "time.h"
-#include "../hardware/cpu.h"
+#include "hardware/cpu.h"
 #include "tcb.h"
 #include "dispatcher.h"
 
