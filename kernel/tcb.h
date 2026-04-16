@@ -26,7 +26,8 @@ struct task_t
     int status;                 // status da tarefa (ex: pronta, executando, terminada)
     struct task_t *owner;       // tarefa que criou esta tarefa (NULL para a tarefa do kernel)
     int priostatic;             // prioridade estática da tarefa
-    int priodinamic;             // prioridade dinâmica da tarefa
+    int priodinamic;            // prioridade dinâmica da tarefa
+    int quantum;
 };
 
 #endif

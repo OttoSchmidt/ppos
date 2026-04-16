@@ -4,6 +4,7 @@
 
 #include "task.h"
 #include "macros.h"
+#include "time.h"
 #include "lib/libc.h"
 #include "lib/queue.h"
 
@@ -21,6 +22,7 @@ extern struct queue_t *ready_queue;
 void task_init() {
 	// inicializa a tarefa do kernel (id=0)
 	task_atual = (struct task_t *) malloc(sizeof(struct task_t));
+	task_kernel = task_atual;
 	if (!task_atual) {
 		ppos_panic("Nao foi possivel alocar tarefa do kernel!\n");
 	}
@@ -31,7 +33,7 @@ void task_init() {
 	task_atual->owner = NULL;
 	task_atual->priostatic = 0;
 	task_atual->priodinamic = 0;
-	task_kernel = task_atual;
+	task_atual->quantum = 0;
 }
 
 struct task_t *task_create(char *name, void (*entry)(void *),
@@ -47,6 +49,7 @@ struct task_t *task_create(char *name, void (*entry)(void *),
 	nova_tarefa->owner = task_atual; // definir a tarefa que criou esta tarefa
 	nova_tarefa->priostatic = 0;
 	nova_tarefa->priodinamic = 0;
+	nova_tarefa->quantum = QUANTUM;
 
 	// alocar pilha p/ o contexto
 	void *stack = malloc(STACK_SIZE);
