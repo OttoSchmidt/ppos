@@ -9,7 +9,7 @@
 #define __PPOS_TIME__
 
 // duracao default do quantum em ticks (ms)
-#define QUANTUM 10
+#define QUANTUM 20
 
 // inicia o subsistema de gestão do tempo
 void time_init();
