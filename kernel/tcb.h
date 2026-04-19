@@ -28,6 +28,10 @@ struct task_t
     int priostatic;             // prioridade estática da tarefa
     int priodinamic;            // prioridade dinâmica da tarefa
     int quantum;
+    int start_time;     // quando a tarefa foi criada
+    int cpu_time;       // tempo total de CPU
+    int last_start;     // última vez que começou a rodar
+    int activations;    // quantas vezes entrou na CPU
 };
 
 #endif

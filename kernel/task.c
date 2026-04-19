@@ -27,6 +27,8 @@ void task_init() {
 		ppos_panic("Nao foi possivel alocar tarefa do kernel!\n");
 	}
 
+	int now = systime();
+
 	task_atual->id = 0;
 	task_atual->name = "kernel";
 	task_atual->status = TASK_RUNNING;
@@ -34,6 +36,10 @@ void task_init() {
 	task_atual->priostatic = 0;
 	task_atual->priodinamic = 0;
 	task_atual->quantum = 0;
+	task_atual->start_time = now;
+	task_atual->cpu_time = 0;
+	task_atual->last_start = now;
+	task_atual->activations = 1;
 }
 
 struct task_t *task_create(char *name, void (*entry)(void *),
@@ -43,6 +49,8 @@ struct task_t *task_create(char *name, void (*entry)(void *),
 	if (!nova_tarefa)
 		return NULL;
 
+	int now = systime();
+
 	nova_tarefa->id = new_task_id;
 	nova_tarefa->name = name;
 	nova_tarefa->status = TASK_NEW;
@@ -50,6 +58,10 @@ struct task_t *task_create(char *name, void (*entry)(void *),
 	nova_tarefa->priostatic = 0;
 	nova_tarefa->priodinamic = 0;
 	nova_tarefa->quantum = QUANTUM;
+	nova_tarefa->start_time = now;
+	nova_tarefa->cpu_time = 0;
+	nova_tarefa->last_start = now;
+	nova_tarefa->activations = 0;
 
 	// alocar pilha p/ o contexto
 	void *stack = malloc(STACK_SIZE);
@@ -100,7 +112,15 @@ int task_switch(struct task_t *task) {
 		}
 
 		struct task_t *task_anterior = task_atual;
+
+		// contabiliza saída
+		task_anterior->cpu_time += systime() - task_anterior->last_start;
+
 		task_atual = task_atual->owner;
+
+		// contabiliza entrada
+		task_atual->activations++;
+		task_atual->last_start = systime();
 
 		#ifdef DEBUG
 		ppos_debug("tarefa atual '%s' finalizou. trocando tarefa para dono '%s'\n", task_anterior->name, task_atual->name);
@@ -115,7 +135,15 @@ int task_switch(struct task_t *task) {
 		// transferir para a nova tarefa. a execucao da tarefa atual foi suspensa
 
 		struct task_t *task_anterior = task_atual; // salvar tarefa atual
+
+		// contabiliza saída
+		task_anterior->cpu_time += systime() - task_anterior->last_start;
+
 		task_atual = task; // atualizar tarefa atual
+
+		// contabiliza entrada
+		task_atual->activations++;
+		task_atual->last_start = systime();
 
 		#ifdef DEBUG
 		ppos_debug("tarefa '%s' finalizou. trocando para tarefa '%s'\n", task_anterior->name, task_atual->name);

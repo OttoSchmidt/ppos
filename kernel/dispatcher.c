@@ -5,6 +5,7 @@
 #include "dispatcher.h"
 #include "task.h"
 #include "scheduler.h"
+#include "time.h"
 
 #include "macros.h"
 
@@ -135,6 +136,13 @@ void task_awake(struct task_t *task) {
 void task_exit(int exit_code) {
 	if (!task_atual)
 		ppos_panic("Nao foi possivel encontrar a task_atual para encerra-la\n");
+
+	// contabiliza o tempo final de CPU
+	int now = systime();
+	task_atual->cpu_time += now - task_atual->last_start;
+	int lifetime = now - task_atual->start_time;
+
+	printf("Task %d exit (%d): %u ms elapsed time %u ms cpu time %u activations - %s\n", task_atual->id, exit_code, lifetime, task_atual->cpu_time, task_atual->activations, task_name(task_atual));
 
 	#ifdef DEBUG
 	ppos_debug("encerrando a task_atual: %s\n", task_name(task_atual));
