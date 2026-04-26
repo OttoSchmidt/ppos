@@ -46,48 +46,45 @@ if [ $PROJECT_NUMBER -lt 1 ] || [ $PROJECT_NUMBER -gt $MAX_TESTS ]; then
 	exit 1
 fi
 
-for i in $(seq 1 $PROJECT_NUMBER); do
-	echo -e "${BLUE}Executando testes do P$i...${NC}"
+echo -e "${BLUE}Executando testes do P$PROJECT_NUMBER...${NC}"
 
-	# manter somente erros no console
-	make p$i > /dev/null
+# manter somente erros no console
+make p$PROJECT_NUMBER > /dev/null
+if [ $? -ne 0 ]; then
+	echo -e "${RED}Erro:${NC} Compilacao dos testes do P$PROJECT_NUMBER falharam."
+	exit 1
+fi
+
+ALL_TESTS_PASSED=true
+TESTS=$(get_tests_name $PROJECT_NUMBER)
+
+for test in $TESTS; do
+	echo "Executando teste: $test"
+
+	# executar o teste e redirecionar tudo para um arquivo
+	./$test > ${test}-output.txt 2>&1
 	if [ $? -ne 0 ]; then
-		echo -e "${RED}Erro:${NC} Compilacao dos testes do P$i falharam."
-		exit 1
+		echo -e "${RED}Erro:${NC} Teste $test falhou."
+		tail -n 20 ${test}-output.txt
+		ALL_TESTS_PASSED=false
+		continue
 	fi
 
-	ALL_TESTS_PASSED=true
-	TESTS=$(get_tests_name $i)
-
-	for test in $TESTS; do
-		echo "Executando teste: $test"
-
-		# executar o teste e redirecionar tudo para um arquivo
-		./$test > ${test}-output.txt 2>&1
-		if [ $? -ne 0 ]; then
-			echo -e "${RED}Erro:${NC} Teste $test falhou."
-			tail -n 20 ${test}-output.txt
-
-			ALL_TESTS_PASSED=false
-			continue
-		fi
-
-		# comparar a saída do teste com a saída esperada
-		diff ${test}-output.txt test/${test}.txt > ${test}-diff.txt
-		if [ $? -ne 0 ]; then
-			echo -e "${RED}Erro:${NC} Teste $test falhou. Saída difere do esperado."
-			echo -e "${BLUE}Diferencas encontradas${NC} (${test}-diff.txt):"
-			tail -n 20 ${test}-diff.txt
-
-			ALL_TESTS_PASSED=false
-		fi
-	done
-
-	if $ALL_TESTS_PASSED; then
-		echo -e "${GREEN}Sucesso:${NC} Todos os testes do P$i passaram!"
-		rm *-output.txt *-diff.txt # limpar arquivos de saída e diffs
-	else
-		echo -e "${RED}Erro:${NC} Alguns testes do P$i falharam. Verifique os arquivos de saída para detalhes."
+	# comparar a saída do teste com a saída esperada
+	diff ${test}-output.txt test/${test}.txt > ${test}-diff.txt
+	if [ $? -ne 0 ]; then
+		echo -e "${RED}Erro:${NC} Teste $test falhou. Saída difere do esperado."
+		echo -e "${BLUE}Diferencas encontradas${NC} (${test}-diff.txt):"
+		tail -n 20 ${test}-diff.txt
+		ALL_TESTS_PASSED=false
 	fi
-	echo -e "------------------------------\n"
 done
+
+if $ALL_TESTS_PASSED; then
+	echo -e "${GREEN}Sucesso:${NC} Todos os testes do P$PROJECT_NUMBER passaram!"
+	rm *-output.txt *-diff.txt # limpar arquivos de saída e diffs
+else
+	echo -e "${RED}Erro:${NC} Alguns testes do P$PROJECT_NUMBER falharam. Verifique os arquivos de saída para detalhes."
+fi
+
+echo -e "------------------------------\n"

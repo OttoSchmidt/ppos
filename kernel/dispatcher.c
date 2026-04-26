@@ -16,6 +16,10 @@ void user_main(void *arg);
 extern struct task_t *task_atual;
 extern struct task_t *task_kernel;
 
+void print_stats(struct task_t *task, int exit_code, int lifetime) {
+	printf("PPOS: task %d (%s) exit code %d, %5d ms elapsed time, %5d ms cpu time, %5d activations\n", task_id(task), task_name(task), exit_code, lifetime, task->cpu_time, task->activations);
+}
+
 void dispatcher_init()
 {
 	ready_queue = queue_create();
@@ -72,6 +76,11 @@ void dispatcher()
 			ppos_debug("Nao existe proxima task\n");
 		}
 	}
+
+	int now = systime();
+	task_kernel->cpu_time += now - task_kernel->last_start;
+	int lifetime = now - task_kernel->start_time;
+	print_stats(task_kernel, 0, lifetime);
 }
 
 
@@ -142,7 +151,7 @@ void task_exit(int exit_code) {
 	task_atual->cpu_time += now - task_atual->last_start;
 	int lifetime = now - task_atual->start_time;
 
-	printf("PPOS: task %d (%s) exit code %d, %d ms elapsed time, %d ms cpu time, %d activations\n", task_atual->id, task_atual->name ? task_atual->name : "null", exit_code, lifetime, task_atual->cpu_time, task_atual->activations);
+	print_stats(task_atual, exit_code, lifetime);
 
 	#ifdef DEBUG
 	ppos_debug("encerrando a task_atual: %s\n", task_name(task_atual));

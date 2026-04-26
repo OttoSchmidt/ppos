@@ -173,6 +173,6 @@ char *task_name(struct task_t *task) {
 	if (!task)
 		return task_atual->name;
 	if (!task->name)
-		return "SEM_NOME";
+		return "(null)";
 	return task->name;
 }
