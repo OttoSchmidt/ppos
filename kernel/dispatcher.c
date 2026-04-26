@@ -142,7 +142,7 @@ void task_exit(int exit_code) {
 	task_atual->cpu_time += now - task_atual->last_start;
 	int lifetime = now - task_atual->start_time;
 
-	printf("Task %d exit (%d): %u ms elapsed time %u ms cpu time %u activations - %s\n", task_atual->id, exit_code, lifetime, task_atual->cpu_time, task_atual->activations, task_name(task_atual));
+	printf("PPOS: task %d (%s) exit code %d, %d ms elapsed time, %d ms cpu time, %d activations\n", task_atual->id, task_atual->name ? task_atual->name : "null", exit_code, lifetime, task_atual->cpu_time, task_atual->activations);
 
 	#ifdef DEBUG
 	ppos_debug("encerrando a task_atual: %s\n", task_name(task_atual));
