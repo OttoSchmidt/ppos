@@ -12,7 +12,6 @@
 
 #define ERROR -1
 #define NOERROR 0
-#define STACK_SIZE 4096
 
 int new_task_id = 1;
 struct task_t *task_atual;
@@ -40,6 +39,9 @@ void task_init() {
 	task_atual->cpu_time = 0;
 	task_atual->last_start = now;
 	task_atual->activations = 1;
+	task_atual->exit_code = 0;
+	task_atual->waited_exit_code = 0;
+	task_atual->waiting_tasks = NULL;
 }
 
 struct task_t *task_create(char *name, void (*entry)(void *),
@@ -62,6 +64,12 @@ struct task_t *task_create(char *name, void (*entry)(void *),
 	nova_tarefa->cpu_time = 0;
 	nova_tarefa->last_start = now;
 	nova_tarefa->activations = 0;
+	nova_tarefa->exit_code = 0;
+	nova_tarefa->waited_exit_code = 0;
+
+	nova_tarefa->waiting_tasks = queue_create();
+	if (!nova_tarefa->waiting_tasks)
+		ppos_panic("nao foi possivel criar fila de espera pela tarefa %s\n", name);
 
 	// alocar pilha p/ o contexto
 	void *stack = malloc(STACK_SIZE);
@@ -76,7 +84,7 @@ struct task_t *task_create(char *name, void (*entry)(void *),
 		free(nova_tarefa);
 		return NULL;
 	}
-	
+
 	new_task_id++;
 	nova_tarefa->status = TASK_READY; // tarefa pronta para ser executada
 	queue_add(ready_queue, nova_tarefa);
@@ -89,9 +97,16 @@ struct task_t *task_create(char *name, void (*entry)(void *),
 }
 
 int task_destroy(struct task_t *task) {
-	if (!task || task->status != TASK_TERMINATED)
+	if (!task)
 		return ERROR;
 
+	if (task->status != TASK_TERMINATED) {
+		ppos_warn("tarefa %s nao esta finalizada para ser destruida\n", task_name(task));
+		return ERROR;
+	}
+
+	if (task->waiting_tasks)
+		queue_destroy(task->waiting_tasks);
 	free(task->context.stack); // liberar pilha
 	free(task); // liberar TCB
 

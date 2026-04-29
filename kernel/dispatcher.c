@@ -47,6 +47,25 @@ void adopt_children(struct queue_t *queue, struct task_t *father_task, struct ta
 	queue_head(queue);
 }
 
+// acorda todas as tarefas que estavam esperando o encerramento de task,
+// tambem passa o exit code para elas e remove-as da fila.
+void awake_waiting_tasks(struct task_t *task) {
+	if (!task || !task->waiting_tasks)
+		return;
+
+	struct task_t *item = queue_head(task->waiting_tasks);
+	while (item) {
+		#ifdef DEBUG
+		ppos_debug("tarefa %s (dependia de %s) acordada\n", task_name(item), task_name(task));
+		#endif
+
+		item->waited_exit_code = task->exit_code;
+		task_awake(item);
+		queue_del(task->waiting_tasks, item);
+		item = queue_head(task->waiting_tasks);
+	}
+}
+
 void dispatcher()
 {
 	struct task_t *task_user = task_create("user", user_main, NULL);
@@ -73,7 +92,9 @@ void dispatcher()
 				default:
 			}
 		} else {
+			#ifdef DEBUG
 			ppos_debug("Nao existe proxima task\n");
+			#endif
 		}
 	}
 
@@ -113,9 +134,8 @@ void task_yield() {
 void task_suspend(struct queue_t *queue) {
 	task_atual->status = TASK_SUSPENDED;
 
-	if (queue_del(ready_queue, task_atual) == ERROR) 
-		ppos_panic("Tarefa atual '%s' nao esta presente na fila de prontas\n", task_name(task_atual));
-
+	queue_del(ready_queue, task_atual);
+	
 	if (queue && queue_add(queue, task_atual) == ERROR) 
 		ppos_panic("Nao foi possivel adicionar tarefa '%s' na fila\n", task_name(task_atual));
 
@@ -158,6 +178,25 @@ void task_exit(int exit_code) {
 	#endif
 
 	task_atual->status = TASK_TERMINATED;
+	task_atual->exit_code = exit_code;
+
+	awake_waiting_tasks(task_atual);
+	#ifdef DEBUG
+	ppos_debug("nome tarefa encerrada: %s | status: %d | exit_code: %d\n", task_name(task_atual), task_atual->status, exit_code);
+	#endif
 
 	task_switch(task_kernel);
+}
+
+
+int task_wait(struct task_t *task) {
+	if (!task)
+		return -1;
+
+	if (task->status == TASK_TERMINATED)
+		return task->exit_code;
+
+	task_suspend(task->waiting_tasks);
+
+	return task_atual->waited_exit_code;
 }

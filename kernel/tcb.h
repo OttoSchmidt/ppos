@@ -20,18 +20,25 @@
 // Task Control Block (TCB), infos sobre uma tarefa
 struct task_t
 {
-    int id;                     // identificador da tarefa
-    char *name;                 // nome da tarefa
-    struct ctx_t context;       // contexto armazenado da tarefa
-    int status;                 // status da tarefa (ex: pronta, executando, terminada)
-    struct task_t *owner;       // tarefa que criou esta tarefa (NULL para a tarefa do kernel)
-    int priostatic;             // prioridade estática da tarefa
-    int priodinamic;            // prioridade dinâmica da tarefa
+    int id;                         // identificador da tarefa
+    char *name;                     // nome da tarefa
+    struct ctx_t context;           // contexto armazenado da tarefa
+    int status;                     // status da tarefa (ex: pronta, executando, terminada)
+    struct task_t *owner;           // tarefa que criou esta tarefa (NULL para a tarefa do kernel)
+
+    int priostatic;                 // prioridade estática da tarefa
+    int priodinamic;                // prioridade dinâmica da tarefa
+    
     int quantum;
-    int start_time;     // quando a tarefa foi criada
-    int cpu_time;       // tempo total de CPU
-    int last_start;     // última vez que começou a rodar
-    int activations;    // quantas vezes entrou na CPU
+    
+    int start_time;                 // quando a tarefa foi criada
+    int cpu_time;                   // tempo total de CPU
+    int last_start;                 // última vez que começou a rodar
+    int activations;                // quantas vezes entrou na CPU
+
+    struct queue_t *waiting_tasks;  // fila com tarefas esperando esta tarefa acabar
+    int exit_code;
+    int waited_exit_code;           // exit_code da tarefa que era esperada para encerrar 
 };
 
 #endif
