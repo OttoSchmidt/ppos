@@ -88,6 +88,7 @@ void dispatcher()
 				case TASK_SUSPENDED: break;
 				case TASK_TERMINATED:
 					adopt_children(ready_queue, executar_task, task_atual);
+					awake_waiting_tasks(executar_task);
 					break;
 				default:
 			}
@@ -180,7 +181,6 @@ void task_exit(int exit_code) {
 	task_atual->status = TASK_TERMINATED;
 	task_atual->exit_code = exit_code;
 
-	awake_waiting_tasks(task_atual);
 	#ifdef DEBUG
 	ppos_debug("nome tarefa encerrada: %s | status: %d | exit_code: %d\n", task_name(task_atual), task_atual->status, exit_code);
 	#endif
