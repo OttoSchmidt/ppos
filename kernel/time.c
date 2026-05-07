@@ -27,7 +27,6 @@ void treat_tick(int time) {
     if (task_atual->quantum > 1) {
         task_atual->quantum--;
     } else if (task_atual->quantum == 1) {
-        task_atual->quantum = QUANTUM; // resetar quantum
         task_yield(); // voltar p/ dispatcher
     }
 }

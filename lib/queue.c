@@ -41,7 +41,8 @@ int queue_destroy(struct queue_t *queue) {
 		free(queue->iter);
 		queue->iter = prox;
 	}
-	free(queue->tail);
+	if (queue->tail)
+		free(queue->tail);
 
 	free(queue);
 	return NOERROR;

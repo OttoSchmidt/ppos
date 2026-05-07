@@ -89,6 +89,7 @@ void dispatcher()
 				case TASK_TERMINATED:
 					adopt_children(ready_queue, executar_task, task_atual);
 					awake_waiting_tasks(executar_task);
+					queue_del(ready_queue, executar_task);
 					break;
 				default:
 			}
@@ -115,6 +116,7 @@ void task_run(struct task_t *task) {
 		return;
 	
 	task->status = TASK_RUNNING;
+	task->quantum = QUANTUM;
 
 	task_switch(task);
 }
@@ -122,6 +124,7 @@ void task_run(struct task_t *task) {
 // a tarefa atual libera a CPU para o dispatcher,
 // voltando para a fila de prontas
 void task_yield() {
+	task_atual->quantum = 0;
 	task_atual->status = TASK_READY;
 	
 	queue_add(ready_queue, task_atual);
@@ -133,8 +136,9 @@ void task_yield() {
 // a insere na fila "queue" (se não for NULL) e retorna
 // ao dispatcher.
 void task_suspend(struct queue_t *queue) {
-	task_atual->status = TASK_SUSPENDED;
+	task_atual->quantum = 0; // impedir preempcao
 
+	task_atual->status = TASK_SUSPENDED;
 	queue_del(ready_queue, task_atual);
 	
 	if (queue && queue_add(queue, task_atual) == ERROR) 
@@ -167,6 +171,8 @@ void task_exit(int exit_code) {
 	if (!task_atual)
 		ppos_panic("Nao foi possivel encontrar a task_atual para encerra-la\n");
 
+	task_atual->quantum = 0; // impedir preempcao
+
 	// contabiliza o tempo final de CPU
 	int now = systime();
 	task_atual->cpu_time += now - task_atual->last_start;
@@ -178,13 +184,9 @@ void task_exit(int exit_code) {
 	ppos_debug("encerrando a task_atual: %s\n", task_name(task_atual));
 	#endif
 
-	task_atual->status = TASK_TERMINATED;
 	task_atual->exit_code = exit_code;
 
-	#ifdef DEBUG
-	ppos_debug("nome tarefa encerrada: %s | status: %d | exit_code: %d\n", task_name(task_atual), task_atual->status, exit_code);
-	#endif
-
+	task_atual->status = TASK_TERMINATED;
 	task_switch(task_kernel);
 }
 
@@ -195,6 +197,8 @@ int task_wait(struct task_t *task) {
 
 	if (task->status == TASK_TERMINATED)
 		return task->exit_code;
+
+	task_atual->quantum = 0; // impedir preempcao
 
 	task_suspend(task->waiting_tasks);
 
