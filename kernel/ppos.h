@@ -5,6 +5,8 @@
 // ATENÇÃO: ESTE ARQUIVO NÃO DEVE SER ALTERADO;
 // ALTERAÇÕES SERÃO DESCARTADAS NA CORREÇÃO.
 
+// Funções básicas/iniciais do PPOS
+
 #ifndef __PPOS__
 #define __PPOS__
 

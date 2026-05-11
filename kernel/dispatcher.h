@@ -5,6 +5,8 @@
 // ATENÇÃO: ESTE ARQUIVO NÃO DEVE SER ALTERADO;
 // ALTERAÇÕES SERÃO DESCARTADAS NA CORREÇÃO.
 
+// Dispatcher: gerencia os estados das tarefas.
+
 #ifndef __PPOS_DISPATCHER__
 #define __PPOS_DISPATCHER__
 

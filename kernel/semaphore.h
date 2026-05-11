@@ -5,6 +5,8 @@
 // ATENÇÃO: ESTE ARQUIVO NÃO DEVE SER ALTERADO;
 // ALTERAÇÕES SERÃO DESCARTADAS NA CORREÇÃO.
 
+// Semáforos e spinlocks
+
 #ifndef __PPOS_SEMAPHORE__
 #define __PPOS_SEMAPHORE__
 

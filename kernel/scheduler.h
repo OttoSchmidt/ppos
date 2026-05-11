@@ -5,6 +5,8 @@
 // ATENÇÃO: ESTE ARQUIVO NÃO DEVE SER ALTERADO;
 // ALTERAÇÕES SERÃO DESCARTADAS NA CORREÇÃO.
 
+// Escalonador de tarefas prontas.
+
 #ifndef __PPOS_SCHEDULER__
 #define __PPOS_SCHEDULER__
 

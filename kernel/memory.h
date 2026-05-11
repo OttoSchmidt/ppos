@@ -2,10 +2,10 @@
 // Prof. Carlos A. Maziero, DINF UFPR
 // Versão 2.0 -- Junho de 2025
 
-// biblioteca de alocação de memória heap.
-
 // ATENÇÃO: ESTE ARQUIVO NÃO DEVE SER ALTERADO;
 // ALTERAÇÕES SERÃO DESCARTADAS NA CORREÇÃO.
+
+// Alocador básico de memória heap.
 
 #ifndef __PPOS_MEMORY__
 #define __PPOS_MEMORY__

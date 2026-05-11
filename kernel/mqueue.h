@@ -5,6 +5,8 @@
 // ATENÇÃO: ESTE ARQUIVO NÃO DEVE SER ALTERADO;
 // ALTERAÇÕES SERÃO DESCARTADAS NA CORREÇÃO.
 
+// Gerência de filas de mensagens
+
 #ifndef __PPOS_MQUEUE__
 #define __PPOS_MQUEUE__
 

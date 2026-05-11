@@ -5,6 +5,8 @@
 // ATENÇÃO: ESTE ARQUIVO NÃO DEVE SER ALTERADO;
 // ALTERAÇÕES SERÃO DESCARTADAS NA CORREÇÃO.
 
+// Gerência básica de tarefas.
+
 #ifndef __PPOS_TASK__
 #define __PPOS_TASK__
 

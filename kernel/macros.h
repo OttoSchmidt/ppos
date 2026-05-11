@@ -13,7 +13,7 @@
 #error "Este codigo foi planejado para ambientes Linux."
 #endif
 
-#include <hardware/cpu.h>
+#include "hardware/cpu.h"
 #include "lib/libc.h"
 
 // códigos de cor ANSI (terminal)

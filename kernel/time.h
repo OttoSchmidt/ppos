@@ -5,11 +5,13 @@
 // ATENÇÃO: ESTE ARQUIVO NÃO DEVE SER ALTERADO;
 // ALTERAÇÕES SERÃO DESCARTADAS NA CORREÇÃO.
 
+// Gerência básica do tempo.
+
 #ifndef __PPOS_TIME__
 #define __PPOS_TIME__
 
 // duracao default do quantum em ticks (ms)
-#define QUANTUM 20
+#define QUANTUM 10
 
 // inicia o subsistema de gestão do tempo
 void time_init();

@@ -5,11 +5,16 @@
 // ATENÇÃO: ESTE ARQUIVO NÃO DEVE SER ALTERADO;
 // ALTERAÇÕES SERÃO DESCARTADAS NA CORREÇÃO.
 
+// Gerência de um dispositivo orientado a blocos.
+
 #ifndef __PPOS_BLOCK__
 #define __PPOS_BLOCK__
 
 // inicia o subsistema de gestão do disco virtual armazenado em "disk_image"
 void block_init(char *disk_image);
+
+// encerra o subsistema de gestão do disco virtual
+void block_stop(char *disk_image);
 
 // retorna o tamanho de cada bloco do disco, em bytes
 int block_size();
