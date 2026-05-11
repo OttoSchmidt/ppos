@@ -8,9 +8,13 @@
 #include "time.h"
 
 #include "macros.h"
+#include <asm-generic/signal-defs.h>
+#include <asm-generic/signal.h>
 
+static sigset_t alarm_mask;
 struct queue_t *ready_queue;
 struct queue_t *suspended_queue;
+struct queue_t *sleeping_queue;
 
 void user_main(void *arg);
 extern struct task_t *task_atual;
@@ -24,6 +28,7 @@ void dispatcher_init()
 {
 	ready_queue = queue_create();
 	suspended_queue = queue_create();
+	sleeping_queue = queue_create();
 }
 
 // iterar toda lista em busca de tarefas com um certo pai
@@ -66,6 +71,28 @@ void awake_waiting_tasks(struct task_t *task) {
 	}
 }
 
+void awake_sleeping_tasks() {
+	sigemptyset(&alarm_mask);
+	sigaddset(&alarm_mask, SIGALRM);
+	sigprocmask(SIG_BLOCK, &alarm_mask, NULL);
+
+	struct task_t *task = queue_head(sleeping_queue);
+
+	while (task) {
+		struct task_t *next = queue_next(sleeping_queue);
+
+		if (task->wake_time <= systime()) {
+            queue_del(sleeping_queue, task);
+            task->status = TASK_READY;
+            queue_add(ready_queue, task);
+        }
+
+		task = next;
+	}
+
+	sigprocmask(SIG_UNBLOCK, &alarm_mask, NULL);
+}
+
 void dispatcher()
 {
 	struct task_t *task_user = task_create("user", user_main, NULL);
@@ -74,7 +101,9 @@ void dispatcher()
 		return;
 	}
 
-	while (queue_size(ready_queue) > 0 || queue_size(suspended_queue) > 0) {
+	while (queue_size(ready_queue) > 0 || queue_size(suspended_queue) > 0 || queue_size(sleeping_queue) > 0) {
+		awake_sleeping_tasks();
+
 		struct task_t *executar_task = scheduler(ready_queue);
 		#ifdef DEBUG
 		ppos_debug("proxima task: %s\n", task_name(executar_task));
@@ -203,4 +232,15 @@ int task_wait(struct task_t *task) {
 	task_suspend(task->waiting_tasks);
 
 	return task_atual->waited_exit_code;
+}
+
+void task_sleep(int t) {
+	sigemptyset(&alarm_mask);
+	sigaddset(&alarm_mask, SIGALRM);
+	sigprocmask(SIG_BLOCK, &alarm_mask, NULL);
+
+	task_atual->wake_time = systime() + t;
+	task_suspend(sleeping_queue);
+
+	sigprocmask(SIG_UNBLOCK, &alarm_mask, NULL);
 }

@@ -36,6 +36,8 @@ struct task_t
     int last_start;                 // última vez que começou a rodar
     int activations;                // quantas vezes entrou na CPU
 
+    int wake_time;                  // hora que a tarefa caso dormindo irá acordar
+
     struct queue_t *waiting_tasks;  // fila com tarefas esperando esta tarefa acabar
     int exit_code;
     int waited_exit_code;           // exit_code da tarefa que era esperada para encerrar 
