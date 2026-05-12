@@ -5,7 +5,7 @@
 // ATENÇÃO: ESTE ARQUIVO NÃO DEVE SER ALTERADO;
 // ALTERAÇÕES SERÃO DESCARTADAS NA CORREÇÃO.
 
-// Interface do disco virtual, que simula um disco rígido (descrição abaixo).
+// Emulação do disco virtual, que simula um disco rígido.
 
 // Atenção: deve ser usado o flag de ligação -lrt, para ligar com a
 // biblioteca POSIX de tempo real, pois o disco simulado usa timers POSIX.

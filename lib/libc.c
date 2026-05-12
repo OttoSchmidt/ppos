@@ -5,8 +5,8 @@
 // ATENÇÃO: ESTE ARQUIVO NÃO DEVE SER ALTERADO;
 // ALTERAÇÕES SERÃO DESCARTADAS NA CORREÇÃO.
 
-// Funções básicas da biblioteca C, que devem ser definidas aqui
-// para nos liberar da GLibC.
+// Implementação simplificada de algumas funções básicas da biblioteca C,
+// que devem ser definidas aqui para nos liberar da GLibC.
 
 #include "hardware/serial.h"
 #include <stdbool.h>
@@ -33,6 +33,7 @@ void randseed(unsigned long seed)
 
 unsigned long randnum(void)
 {
+    // gerador pseudo-aleatorio simples por congruência linear
 //    rand_number = (1103515245L * rand_number + 12345) % (1 << 30);
     rand_number = (1664525L * rand_number + 1013904223L) % (1L << 31);
     return (rand_number);

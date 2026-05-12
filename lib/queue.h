@@ -85,10 +85,10 @@ void *queue_item(struct queue_t *queue);
 // Imprime os elementos de uma fila; a função externa "func"
 // deve ser chamada para imprimir cada item.
 // Exemplos de saída, com name == "Frutas":
-// Frutas: [ banana pera ameixa uva ] (4 itens)
-// Frutas: [ ] (0 itens)
+// Frutas: [ banana pera ameixa uva ] (4 items)
+// Frutas: [ ] (0 items)
 // Frutas: undef   se queue == NULL
-// Frutas: [ undef undef undef ] (3 itens)  se func == NULL
+// Frutas: [ undef undef undef ] (3 items)  se func == NULL
 void queue_print(char *name, struct queue_t *queue, void(func)(void *));
 
 #endif

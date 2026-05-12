@@ -5,11 +5,7 @@
 // ATENÇÃO: ESTE ARQUIVO NÃO DEVE SER ALTERADO;
 // ALTERAÇÕES SERÃO DESCARTADAS NA CORREÇÃO.
 
-// Emula vários mecanismos de uma CPU:
-// - interrupções virtuais
-// - temporizador virtual
-// - Wait for Interrupt
-// - desligamento do hardware
+// Emulação de alguns mecanismos do hardware da CPU
 
 #ifndef __HW_CPU__
 #define __HW_CPU__

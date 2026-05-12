@@ -5,33 +5,31 @@ YELLOW="\e[0;33m"
 GREEN="\e[0;32m"
 NOC="\e[0;37m"
 
-DIR_HEADERS=("./kernel" "${HOME}/Downloads/ppos-aluno/kernel")
-
-if [ ! -d "${DIR_HEADERS[0]}" ] || [ ! -d "${DIR_HEADERS[1]}" ]; then
+DIR_BASE=("./" "${HOME}/Downloads/ppos-aluno")
+if [ ! -d "${DIR_BASE[0]}" ] || [ ! -d "${DIR_BASE[1]}" ]; then
 	echo -e "${RED}diretorio(s) nao encontrado(s)!${NOC} diretorios esperados:"
-	echo -e "\t- ${DIR_HEADERS[0]} -- ${YELLOW}projeto atual${NOC}\n\t- ${DIR_HEADERS[1]} -- ${YELLOW}projeto sem modificacoes${NOC}\n"
+	echo -e "\t- ${DIR_BASE[0]} -- ${YELLOW}projeto atual${NOC}\n\t- ${DIR_BASE[1]} -- ${YELLOW}projeto sem modificacoes${NOC}\n"
 	exit 1
 fi
 
-cd ${DIR_HEADERS[0]}
-HEADERS=$(ls *.h | sed 's/tcb.h//g' | xargs)
-cd ..
-
-echo -e "${YELLOW}verificando:${NOC} ${HEADERS}"
+# recuperar lista de arquivos que nao devem ser modificados
+FILES_TO_COMPARE=$(grep -rl "ATENÇÃO: ESTE ARQUIVO NÃO DEVE SER ALTERADO" | sed "s/compare_headers.sh//g" | xargs)
 
 ALL_EQUAL=1
-for HEADER in ${HEADERS}; do
-	diff ${DIR_HEADERS[0]}/$HEADER ${DIR_HEADERS[1]}/$HEADER > diferenca.txt
+echo -e "${YELLOW}verificando:${NOC} ${FILES_TO_COMPARE}"
+
+for FILE in ${FILES_TO_COMPARE}; do
+	diff ${DIR_BASE[0]}/$FILE ${DIR_BASE[1]}/$FILE > diferenca.txt
 	if [ $? -ne 0 ]; then
 		ALL_EQUAL=0
-		echo -e "\n${RED}- diferenca detectada no arquivo: ${HEADER}${NOC}"
+		echo -e "\n${RED}- diferenca detectada no arquivo: ${FILE}${NOC}"
 		cat diferenca.txt
 		echo -e "==================================="
 	fi
 done
 
-rm diferenca.txt
-
 if [ $ALL_EQUAL -eq 1 ]; then
-	echo -e "\n${GREEN}todos os arquivos de cabecalho sao iguais!${NOC}"
+	echo -e "\n${GREEN}todos os arquivos sao iguais!${NOC}"
 fi
+
+rm diferenca.txt

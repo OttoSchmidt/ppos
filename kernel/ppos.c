@@ -5,6 +5,8 @@
 // ATENÇÃO: ESTE ARQUIVO NÃO DEVE SER ALTERADO;
 // ALTERAÇÕES SERÃO DESCARTADAS NA CORREÇÃO.
 
+// Funções básicas/iniciais do PPOS
+
 #include "hardware/cpu.h"
 #include "lib/libc.h"
 #include "ppos.h"

@@ -2,10 +2,10 @@
 // Prof. Carlos A. Maziero, DINF UFPR
 // Versão 2.0 -- Junho de 2025
 
-// ATENÇÃO: ESTE ARQUIVO NÃO DEVE SER ALTERADO
+// ATENÇÃO: ESTE ARQUIVO NÃO DEVE SER ALTERADO;
 // ALTERAÇÕES SERÃO DESCARTADAS NA CORREÇÃO.
 
-// Implementação do disco virtual, que simula um disco rígido.
+// Emulação do disco virtual, que simula um disco rígido.
 
 // para depurar a operação do disco
 //#define DEBUG_DISK 1

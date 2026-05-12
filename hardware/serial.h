@@ -5,9 +5,7 @@
 // ATENÇÃO: ESTE ARQUIVO NÃO DEVE SER ALTERADO;
 // ALTERAÇÕES SERÃO DESCARTADAS NA CORREÇÃO.
 
-// Emula uma porta serial com operações de E/S de caracteres,
-// que normalmente corresponde a um terminal de texto acessível
-// através de uma UART.
+// Emulação de uma porta serial com operações de E/S de caracteres.
 
 #ifndef __HW_SERIAL__
 #define __HW_SERIAL__

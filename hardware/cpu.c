@@ -5,10 +5,7 @@
 // ATENÇÃO: ESTE ARQUIVO NÃO DEVE SER ALTERADO;
 // ALTERAÇÕES SERÃO DESCARTADAS NA CORREÇÃO.
 
-// Emula vários mecanismos de uma CPU:
-// - interrupções virtuais - emuladas com sinais POSIX de tempo real
-//   a partir de SIGRTMIN+1
-// - desligamento do sistema
+// Emulação de alguns mecanismos do hardware da CPU
 
 // padrão de API UNIX a usar (para sigaction)
 #define _XOPEN_SOURCE 700
