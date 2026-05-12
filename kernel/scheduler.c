@@ -26,7 +26,8 @@ struct task_t *scheduler(struct queue_t *ready_queue) {
 		task = queue_next(ready_queue);
 	}
 
-	next_task->priodinamic = next_task->priostatic;
+	if (next_task)
+		next_task->priodinamic = next_task->priostatic;
 
 	return next_task;
 }
