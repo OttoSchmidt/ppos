@@ -17,6 +17,7 @@ int new_task_id = 1;
 struct task_t *task_atual;
 struct task_t *task_kernel;
 extern struct queue_t *ready_queue;
+int task_count;
 
 void task_init() {
 	// inicializa a tarefa do kernel (id=0)
@@ -50,6 +51,8 @@ struct task_t *task_create(char *name, void (*entry)(void *),
 	struct task_t *nova_tarefa = (struct task_t *) malloc(sizeof(struct task_t));
 	if (!nova_tarefa)
 		return NULL;
+
+	task_count++;
 
 	int now = systime();
 

@@ -8,10 +8,7 @@
 #include "time.h"
 
 #include "macros.h"
-#include <asm-generic/signal-defs.h>
-#include <asm-generic/signal.h>
 
-static sigset_t alarm_mask;
 struct queue_t *ready_queue;
 struct queue_t *suspended_queue;
 struct queue_t *sleeping_queue;
@@ -19,6 +16,7 @@ struct queue_t *sleeping_queue;
 void user_main(void *arg);
 extern struct task_t *task_atual;
 extern struct task_t *task_kernel;
+extern int task_count;
 
 void print_stats(struct task_t *task, int exit_code, int lifetime) {
 	printf("PPOS: task %d (%s) exit code %d, %5d ms elapsed time, %5d ms cpu time, %5d activations\n", task_id(task), task_name(task), exit_code, lifetime, task->cpu_time, task->activations);
@@ -29,6 +27,7 @@ void dispatcher_init()
 	ready_queue = queue_create();
 	suspended_queue = queue_create();
 	sleeping_queue = queue_create();
+	task_count = 0;
 }
 
 // iterar toda lista em busca de tarefas com um certo pai
@@ -72,10 +71,6 @@ void awake_waiting_tasks(struct task_t *task) {
 }
 
 void awake_sleeping_tasks() {
-	sigemptyset(&alarm_mask);
-	sigaddset(&alarm_mask, SIGALRM);
-	sigprocmask(SIG_BLOCK, &alarm_mask, NULL);
-
 	struct task_t *task = queue_head(sleeping_queue);
 
 	while (task) {
@@ -89,8 +84,6 @@ void awake_sleeping_tasks() {
 
 		task = next;
 	}
-
-	sigprocmask(SIG_UNBLOCK, &alarm_mask, NULL);
 }
 
 void dispatcher()
@@ -101,7 +94,7 @@ void dispatcher()
 		return;
 	}
 
-	while (queue_size(ready_queue) > 0 || queue_size(suspended_queue) > 0 || queue_size(sleeping_queue) > 0) {
+	while (task_count > 0) {
 		awake_sleeping_tasks();
 
 		struct task_t *executar_task = scheduler(ready_queue);
@@ -213,6 +206,8 @@ void task_exit(int exit_code) {
 	ppos_debug("encerrando a task_atual: %s\n", task_name(task_atual));
 	#endif
 
+	task_count--;
+
 	task_atual->exit_code = exit_code;
 
 	task_atual->status = TASK_TERMINATED;
@@ -235,12 +230,8 @@ int task_wait(struct task_t *task) {
 }
 
 void task_sleep(int t) {
-	sigemptyset(&alarm_mask);
-	sigaddset(&alarm_mask, SIGALRM);
-	sigprocmask(SIG_BLOCK, &alarm_mask, NULL);
+	task_atual->quantum = 0; // impedir preempcao
 
 	task_atual->wake_time = systime() + t;
 	task_suspend(sleeping_queue);
-
-	sigprocmask(SIG_UNBLOCK, &alarm_mask, NULL);
 }
