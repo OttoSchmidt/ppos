@@ -7,7 +7,7 @@
 #ifndef __PPOS_TCB__
 #define __PPOS_TCB__
 
-#define STACK_SIZE 4096
+#define STACK_SIZE 65536 // 64 KB
 #define TASK_NEW 0
 #define TASK_READY 1
 #define TASK_RUNNING 2

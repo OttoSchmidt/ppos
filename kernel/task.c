@@ -108,6 +108,10 @@ int task_destroy(struct task_t *task) {
 		return ERROR;
 	}
 
+	#ifdef DEBUG
+	ppos_debug("destruindo tarefa %s\n", task_name(task));
+	#endif
+
 	if (task->waiting_tasks)
 		queue_destroy(task->waiting_tasks);
 	free(task->context.stack); // liberar pilha

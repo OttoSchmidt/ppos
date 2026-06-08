@@ -58,7 +58,7 @@ int sem_down(struct semaphore_t *s) {
 		task_suspend(s->waiting);
 		
 		#ifdef DEBUG
-		printf("acordou do semaforo (task: %s)\n", task_name(task_atual));
+		ppos_debug("acordou do semaforo (task: %s)\n", task_name(task_atual));
 		#endif
 
 		// verificar se semaforo foi destruido
