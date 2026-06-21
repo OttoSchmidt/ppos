@@ -1,6 +1,7 @@
 // PingPongOS - PingPong Operating System
 // GRR20244386 - Otto Schmidt
 // GRR20244625 - Vinícius Hasse Nascimento
+
 #include <stdlib.h>
 #include <string.h>
 
